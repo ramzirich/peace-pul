@@ -39,7 +39,7 @@ class NeuroticismController extends Controller
         $perPage = $request->query('perPage', 10);
         $page = $request->query('page', 1);
         $sortColumns = $request->query('sortColumns', []);
-        $request['user_id'] = $this->user->id;
+        $request->merge(['user_id' => $this->user->id]);
         $model = $this->userSpecGenericManager->getAllForCurrentUser($request, $perPage, $page, $sortColumns);
         if(!$model){
             return [];

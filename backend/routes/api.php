@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\FavoritePlaceController;
+use App\Http\Controllers\FavoriteHobbyController;
 use App\Http\Controllers\NeuroticismController;
 use App\Http\Controllers\StressCauseController;
 use Illuminate\Http\Request;
@@ -43,4 +45,22 @@ Route::middleware('auth.user')->group(function () {
     Route::post('stress_cause/massDelete',  [StressCauseController::class, 'massDeleteStressCause']);
     Route::get('stress_cause/{id}',  [StressCauseController::class, 'getStressCauseForUser']);
     Route::get('stress_causes',  [StressCauseController::class, 'getAllStressCauseForUser']);
+});
+
+Route::middleware('auth.user')->group(function () {
+    Route::post('favorite_place/create',  [FavoritePlaceController::class, 'createFavoritePlace']);
+    Route::post('favorite_place/update/{id}',  [FavoritePlaceController::class, 'updateFavoritePlace']);
+    Route::post('favorite_place/delete/{id}',  [FavoritePlaceController::class, 'deleteFavoritePlace']);
+    Route::post('favorite_place/massDelete',  [FavoritePlaceController::class, 'massDeleteFavoritePlace']);
+    Route::get('favorite_place/{id}',  [FavoritePlaceController::class, 'getFavoritePlaceForUser']);
+    Route::get('favorite_places',  [FavoritePlaceController::class, 'getAllFavoritePlaceForUser']);
+});
+
+Route::middleware('auth.user')->group(function () {
+    Route::post('favorite_hobby/create',  [FavoriteHobbyController::class, 'createFavoriteHobby']);
+    Route::post('favorite_hobby/update/{id}',  [FavoriteHobbyController::class, 'updateFavoriteHobby']);
+    Route::post('favorite_hobby/delete/{id}',  [FavoriteHobbyController::class, 'deleteFavoriteHobby']);
+    Route::post('favorite_hobby/massDelete',  [FavoriteHobbyController::class, 'massDeleteFavoriteHobby']);
+    Route::get('favorite_hobby/{id}',  [FavoriteHobbyController::class, 'getFavoriteHobbyForUser']);
+    Route::get('favorite_hobbies',  [FavoriteHobbyController::class, 'getAllFavoriteHobbyForUser']);
 });

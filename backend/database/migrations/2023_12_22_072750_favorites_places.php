@@ -20,6 +20,7 @@ return new class extends Migration
         });
 
         Schema::create('favorite_places', function (Blueprint $table) {
+            $table->id();
             $table->unsignedBigInteger("user_id");
             $table->unsignedBigInteger('places_id');
             $table->softDeletes()->nullable(); 
