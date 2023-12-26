@@ -4,6 +4,10 @@ use App\Http\Controllers\FavoritePlaceController;
 use App\Http\Controllers\FavoriteHobbyController;
 use App\Http\Controllers\NeuroticismController;
 use App\Http\Controllers\StressCauseController;
+use App\Http\Controllers\PatientCommentController;
+use App\Http\Controllers\DoctorNoteController;
+use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\VolunteerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -64,3 +68,31 @@ Route::middleware('auth.user')->group(function () {
     Route::get('favorite_hobby/{id}',  [FavoriteHobbyController::class, 'getFavoriteHobbyForUser']);
     Route::get('favorite_hobbies',  [FavoriteHobbyController::class, 'getAllFavoriteHobbyForUser']);
 });
+
+Route::middleware(['auth.user', 'patient.check'])->group(function () {
+    Route::post('patient_comment/create',  [PatientCommentController::class, 'createPatientComment']);
+    Route::post('patient_comment/update/{id}',  [PatientCommentController::class, 'updatePatientComment']);
+    Route::post('patient_comment/delete/{id}',  [PatientCommentController::class, 'deletePatientComment']);
+    Route::get('patient_comment/{id}',  [PatientCommentController::class, 'getPatientComment']);
+});
+
+Route::middleware(['auth.user', 'doctor.check'])->group(function () {
+    Route::post('doctor_note/create',  [DoctorNoteController::class, 'createDoctorNote']);
+    Route::post('doctor_note/update/{id}',  [DoctorNoteController::class, 'updateDoctorNote']);
+    Route::post('doctor_note/delete/{id}',  [DoctorNoteController::class, 'deleteDoctorNote']);
+    Route::get('doctor_note/{id}',  [DoctorNoteController::class, 'getDoctorNote']);
+});
+
+Route::middleware(['auth.user', 'doctor.check'])->group(function () {
+    Route::post('doctor/create',  [DoctorController::class, 'createDoctor']);
+    Route::post('doctor/update',  [DoctorController::class, 'updateDoctor']);
+    Route::get('doctor',  [DoctorController::class, 'getDoctor']);
+});
+
+Route::middleware(['auth.user', 'volunteer.check'])->group(function () {
+    Route::post('volunteer/create',  [VolunteerController::class, 'createVolunteer']);
+    Route::post('volunteer/update',  [VolunteerController::class, 'updateVolunteer']);
+    Route::get('volunteer',  [VolunteerController::class, 'getVolunteer']);
+});
+
+

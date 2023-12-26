@@ -28,6 +28,18 @@ class UserSpecificGenericManager{
             return ExceptionMessages::Error($exception->getMessage());
         }      
     }
+
+    public function getByColumn($foreignKey, $foreignKeyVale) {
+        try{
+            $model = $this->obj->where($foreignKey, $foreignKeyVale)->first();
+            if(!$model){
+                return [];
+            }
+            return $model;
+        }catch(\Exception $exception){
+            return ExceptionMessages::Error($exception->getMessage());
+        }      
+    }
     public function getAllForCurrentUser($request = null, $perPage = 10, 
                             $page =1, $sortColumns = []){
         try{
@@ -75,9 +87,9 @@ class UserSpecificGenericManager{
 
     public function updateForSpecificUser($request, $id, $foreignKey){
         try{
-            $data  = $request->json()->all();
+            $data  = $request->all();
             $updated_model= $this->findById($id, $foreignKey);
-
+           
             if(!$updated_model){
                 return ExceptionMessages::NotFound(class_basename($this->obj));
             }
