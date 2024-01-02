@@ -124,6 +124,7 @@ Route::middleware('auth.user')->group(function () {
 
 Route::middleware('auth.user')->group(function () {
     Route::post('rating',  [RatingController::class, 'CreateUpdateRating']);
+    Route::get('rating/{id}',  [RatingController::class, 'getRating']);
 });
 
 
