@@ -11,22 +11,20 @@ class GenericManager{
         $this->obj = $obj;
     }
 
-    public function findById($id) {
+    public function findById($id, $with= []) {
         try{
-            return $this->obj->find($id);
-        }catch(\Exception $ex){
-            return response()->json([
-                "status" => 'error'
-            ]);
+            return $this->obj->with($with)->find($id);
+        }catch(\Exception $exception){
+            return ExceptionMessages::Error($exception->getMessage());
         }      
     }
 
-    public function getAll($request = null, $perPage = 10, 
+    public function getAll($request = null, $with=[], $perPage = 10, 
                             $page =1, $sortBy = null, $sortOrder = 'asc'){
         try{
             $data = $request? $request->json()->all() : [];
-            $query =  $this->obj->where($data);
-        
+            $query =  $this->obj->with($with)->where($data);
+            
             if($sortBy && in_array($sortOrder,['asc', 'dec'])){
                 $query->orderBy($sortBy, $sortOrder);
             }

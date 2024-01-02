@@ -1,8 +1,13 @@
 <?php
 
+use App\Http\Controllers\DoctorListAndIndividualController;
 use App\Http\Controllers\FavoritePlaceController;
 use App\Http\Controllers\FavoriteHobbyController;
+use App\Http\Controllers\HobbiesController;
 use App\Http\Controllers\NeuroticismController;
+use App\Http\Controllers\PatientRequestDoctorController;
+use App\Http\Controllers\PlacesController;
+use App\Http\Controllers\RatingController;
 use App\Http\Controllers\StressCauseController;
 use App\Http\Controllers\PatientCommentController;
 use App\Http\Controllers\DoctorNoteController;
@@ -35,6 +40,7 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('update/user', 'updateUser');
     Route::post('delete/user', 'deleteUser');
     Route::get('user', 'getCurrentUser');
+    Route::post('image', 'uploadImage');
 });
 
 Route::middleware('auth.user')->group(function () {
@@ -93,6 +99,31 @@ Route::middleware(['auth.user', 'volunteer.check'])->group(function () {
     Route::post('volunteer/create',  [VolunteerController::class, 'createVolunteer']);
     Route::post('volunteer/update',  [VolunteerController::class, 'updateVolunteer']);
     Route::get('volunteer',  [VolunteerController::class, 'getVolunteer']);
+});
+
+Route::controller(PlacesController::class)->group(function () {
+    Route::get('places', 'getPlaces');
+});
+
+Route::controller(HobbiesController::class)->group(function () {
+    Route::get('hobbies', 'getHobbies');
+});
+
+Route::controller(DoctorListAndIndividualController::class)->group(function () {
+    Route::get('doctor/{id}', 'getDoctor');
+    Route::get('doctors', 'getListOfDoctors');
+});
+
+Route::middleware('auth.user')->group(function () {
+    Route::post('doctor_request/create',  [PatientRequestDoctorController::class, 'createDoctorRequest']);
+    Route::post('doctor_request/delete/{id}',  [PatientRequestDoctorController::class, 'deleteDoctorRequest']);
+    Route::post('doctor_request/massDelete',  [PatientRequestDoctorController::class, 'massDeleteDoctorRequest']);
+    Route::get('doctor_request/{id}',  [PatientRequestDoctorController::class, 'getRequestForPatient']);
+    Route::get('doctor_request',  [PatientRequestDoctorController::class, 'getAllDoctorRequestForPatient']);
+});
+
+Route::middleware('auth.user')->group(function () {
+    Route::post('rating',  [RatingController::class, 'CreateUpdateRating']);
 });
 
 
