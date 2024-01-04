@@ -5,9 +5,16 @@ import { HeaderButton } from "../../reusable/components/headerButtons/HeaderButt
 import React, { useEffect } from "react"
 import axios from "axios"
 import { config } from "../../../config"
+// import { useNavigate } from "react-router-dom"
+import { Link } from "react-router-native"
+import Home from "../Home/Home"
+// import { useNavigation } from "@react-navigation/native"
 
-export const ListOfPsychiatrist = () =>{
+
+export const ListOfPsychiatrist = ({navigation}) =>{
     const [doctors, setDoctors] = React.useState([]);
+    // const navigate = useNavigate();
+    // const navigation = useNavigation();
     useEffect(() =>{
         const fetchUserData = async() =>{
             try{
@@ -21,7 +28,7 @@ export const ListOfPsychiatrist = () =>{
     }, [])
     const users = doctors.map(doctor => ({
         about :doctor.about,
-        id:doctor.user.id,
+        id:doctor.id,
         first_name: doctor.user.first_name,
         last_name: doctor.user.last_name,
         img_url: doctor.user.img_url,
@@ -31,7 +38,15 @@ export const ListOfPsychiatrist = () =>{
         <View>
             <CustomHeader />
             <HeaderButton />
-            {doctors.length ===0 ? <Text>No Doctors</Text> : <SliderVertical userList={users} dr='Dr.'/> }
+            {doctors.length ===0 ? <Text>No Doctors</Text> :
+          
+            <SliderVertical userList={users} dr='Dr.'
+                navigation={navigation}
+             /> 
+           }
+            {/* <Link to='/home'>
+                <Text>Home</Text>
+            </Link> */}
         </View>
     )
 } 

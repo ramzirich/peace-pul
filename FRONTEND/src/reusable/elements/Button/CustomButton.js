@@ -15,6 +15,7 @@ export const CustomButton = ({title, onPress = () => {}}) => {
         marginVertical: 20,
         justifyContent: 'center',
         alignItems: 'center',
+        borderRadius:5
       }}>
       <Text style={{color: CustomColors.white, fontWeight: 'bold', fontSize: 18}}>
         {title}

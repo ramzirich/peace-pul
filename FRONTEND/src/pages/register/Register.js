@@ -10,13 +10,15 @@ import {
 } from 'react-native';
 
 import { CustomColors } from '../../styles/color';
-import { CustomButton } from '../../reusable/Button/CustomButton';
-import { Input } from '../../reusable/Input/Input';
+import { CustomButton } from '../../reusable/elements/Button/CustomButton';
+import { Input } from '../../reusable/elements/Input/Input';
 import { config } from '../../../config';
 import axios from 'axios';
 
-const Registration = ({}) => {
-    console.log("Hi")
+const Registration = () => {
+    // const to = AsyncStorage.getItem('user');
+    // const err = JSON.parse(to);
+    // console.log(err);
   const [inputs, setInputs] = React.useState({
     email: '',
     first_name: '',
@@ -24,7 +26,6 @@ const Registration = ({}) => {
     password: '',
   });
   const [errors, setErrors] = React.useState({});
-  const [loading, setLoading] = React.useState(false);
 
   const validate = () => {
     Keyboard.dismiss();
@@ -79,9 +80,9 @@ const Registration = ({}) => {
   const register = async(inputs) =>{
     try{
         const response = await axios.post(`${config.apiUrl}/register`, inputs);
-        // const token = inputs.data.authorisation.token;
-        // await setAuthToken(token);
-        console.log(response.data);
+        await AsyncStorage.setItem('authToken', response.data.authorisation.token);
+        await AsyncStorage.setItem('user', JSON.stringify(response.data.user))
+        
     }catch(error){
         console.error("Coudn't login: ", error.response?.data || error.message)
     }

@@ -1,85 +1,79 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import { SafeAreaView, Switch, Text } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-import { Register } from './src/page/Register';
-import { Login } from './src/page/Login';
+import { Route, Routes } from 'react-router-dom';
+import { NativeRouter } from 'react-router-native';
+import Login from './src/pages/Login/Login';
+import Home from './src/pages/Home/Home';
+import { ListOfPsychiatrist } from './src/pages/listOfPsychiatrist/ListOfPsychiatrist';
+import { PsychiatristInfo } from './src/pages/psychiatrist/PsychiatristInfo';
+import { Provider } from 'react-redux';
+import storee from './src/redux/storee';
 import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainer, useNavigationState } from '@react-navigation/native';
+
+
+
+
+
 
 function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  const Stack = createStackNavigator()
-
+  const Stack = createNativeStackNavigator();
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+  //   <SafeAreaView>
+  //   <NativeRouter> 
+  //     <Routes>
+  //       <Route path="/" element={<Login/>} /> 
+  //      </Routes>
+  //    </NativeRouter> 
+  //  </SafeAreaView>
+  
+  // <Login />
+
+/* <Text>Hii</Text> */
+
+
+    // <Provider store={storee}>
+    //   <NativeRouter> 
+    //     <Routes>
+    //       <Route path="/" element={<Login/>} /> 
+    //        <Route path='/home' element={<Home/>} />
+    //       <Route path='/psychiatrists' element={<ListOfPsychiatrist/>} />
+    //       <Route path='/psychiatrist' element={<PsychiatristInfo/>} /> 
+    //     </Routes>
+    //   </NativeRouter> 
+    //  </Provider>
+
+    <Provider store={storee}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName='login'>
-            <Stack.Screen name='login' component={Login} options={{ headerShown: false }}/>
-            <Stack.Screen name='register' component={Register} options={{ headerShown: false }}/>
+        <Stack.Navigator initialRouteName="login">
+          <Stack.Screen name="login" component={Login} /> 
+           <Stack.Screen name="home" component={Home} /> 
+           <Stack.Screen name="psychiatrists" component={ListOfPsychiatrist} /> 
+             <Stack.Screen name="psychiatrist" component={PsychiatristInfo} 
+             options={{title: 'id'}} />   
         </Stack.Navigator>
       </NavigationContainer>
-    </SafeAreaView>
-    
-    // <SafeAreaView style={backgroundStyle}>
-    //   <StatusBar
-    //     barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-    //     backgroundColor={backgroundStyle.backgroundColor}
-    //   />
-    //   <ScrollView
-    //     contentInsetAdjustmentBehavior="automatic"
-    //     style={backgroundStyle}>
-    //     <Header />
-    //     
-    //   </ScrollView>
-    // </SafeAreaView>
-  );
-}
+     </Provider>
 
-// const styles = StyleSheet.create({
-//   sectionContainer: {
-//     marginTop: 32,
-//     paddingHorizontal: 24,
-//   },
-//   sectionTitle: {
-//     fontSize: 24,
-//     fontWeight: '600',
-//   },
-//   sectionDescription: {
-//     marginTop: 8,
-//     fontSize: 18,
-//     fontWeight: '400',
-//   },
-//   highlight: {
-//     fontWeight: '700',
-//   },
-// });
+
+
+  // <SafeAreaView>
+    // <NativeRouter> 
+    //   <Routes>
+    //     <Route path="/register" element={<Register/>}/> 
+    //     <Route path="/" element={<Login/>}/> 
+        // <Route path="/home" element={<AuthProvider><Home /></AuthProvider>} />
+    //   </Routes>
+    // </NativeRouter>
+    // <AuthProvider>
+    //   <AppNavigator />
+    // </AuthProvider>
+  // </SafeAreaView>
+    
+  )
+}
+// import store from './src/redux/storee';
 
 export default App;

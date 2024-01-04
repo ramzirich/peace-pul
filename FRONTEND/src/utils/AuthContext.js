@@ -12,14 +12,10 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    // This effect will run every time user is updated
     console.log("LOG After setUser", user);
   }, [user]);
 
-  useEffect(() => {
-    // This effect will run every time user is updated
-    console.log("LOG After setUser", user);
-  }, []);
+ 
 
   console.log("LOG Authuser", user);
  

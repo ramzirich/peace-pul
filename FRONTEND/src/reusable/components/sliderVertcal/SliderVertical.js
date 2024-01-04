@@ -1,14 +1,17 @@
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import { CustomColors } from "../../../styles/color"
 import { Card } from "../card/Card"
+// import { useNavigate } from "react-router-dom"
 
 
-export const SliderVertical  = ({userList, dr=null}) =>{
-   
+export const SliderVertical  = ({userList, dr=null, navigation}) =>{
+//    const navigate = useNavigate();
     renderItem = ({item}) =>{
         return(
             <Card first_name={item.first_name} text={item.about}
-              last_name={item.last_name} dr={dr} imgUrl={item.img_url}/>
+              last_name={item.last_name} dr={dr} imgUrl={item.img_url}
+              id={item.id} navigation={navigation}
+              />
         )
     }
 
@@ -22,21 +25,3 @@ export const SliderVertical  = ({userList, dr=null}) =>{
         </View>
     )
 } 
-
-const SECTIONS = [
-    {
-      title: 'Made for you',
-      data: [
-        {
-          key: '1',
-          text: 'Item text 1',
-          uri: 'https://picsum.photos/id/1/200 https://picsum.photos/id/1/200 https://picsum.photos/id/1/200' +
-           'https://picsum.photos/id/1/200 https://picsum.photos/id/1/200',
-        },
-        {
-          key: '2',
-          text: 'Item text 2',
-          uri: 'https://picsum.photos/id/10/200 https://picsum.photos/id/10/200 https://picsum.photos/id/10/200',
-        },
-      ]
-    }]

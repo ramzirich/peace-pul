@@ -12,7 +12,7 @@ export const Input = ({
   const [hidePassword, setHidePassword] = React.useState(password);
   const [isFocused, setIsFocused] = React.useState(false);
   return (
-    <View style={{marginBottom: 20}}>
+    <View style={{marginBottom: 10}}>
       <Text style={style.label}>{label}</Text>
       <View
         style={[
@@ -38,7 +38,7 @@ export const Input = ({
           }}
           onBlur={() => setIsFocused(false)}
           secureTextEntry={hidePassword}
-          style={{color: CustomColors.darkBlue, flex: 1}}
+          style={{color: CustomColors.darkBlue, flex: 1, borderRadius:5}}
           {...props}
         />
         {/* {password && (
@@ -70,5 +70,6 @@ const style = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: 15,
     borderWidth: 0.5,
+    borderRadius:5
   },
 });

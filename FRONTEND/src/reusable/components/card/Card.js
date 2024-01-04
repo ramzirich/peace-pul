@@ -2,10 +2,11 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import { CustomColors } from "../../../styles/color"
 import { config } from "../../../../config";
 
-export const Card = ({dr =null, first_name, last_name, text, imgUrl}) =>{
+export const Card = ({dr =null, first_name, last_name, text, imgUrl,id, navigation}) =>{
     const imagePath = `${config.imgUrl}${imgUrl}`;
     return(
-        <TouchableOpacity style={styles.card}>
+        <TouchableOpacity style={styles.card}
+            onPress={()=>navigation.navigate('psychiatrist', {id:id})}>
             <View style={styles.text_right}>
                 <Text style={styles.name} numberOfLines={1}>{dr} {first_name} {last_name}</Text> 
                 <View style={styles.info}>

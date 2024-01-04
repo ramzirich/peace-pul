@@ -3,8 +3,9 @@ import { Comment } from "./Comment"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { config } from "../../../../config"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
-export const CommentList = () =>{
+export const CommentList = ({id}) =>{
     // const [perPage, setPerPage] = useState(2); 
     let perPage =2;
     const [commentList, setCommentList] = useState([]);
@@ -12,9 +13,10 @@ export const CommentList = () =>{
     useEffect(() =>{
         const fetcData = async() =>{
             try{
-                const commentResponse = await axios.get(`${config.apiUrl}/patient_comments/5?perPage=${perPage}&page=1`,{
+                const authToken = await AsyncStorage.getItem('authToken');
+                const commentResponse = await axios.get(`${config.apiUrl}/patient_comments/${id}?perPage=${perPage}&page=1`,{
                     headers:{
-                        'Authorization': `Bearer ${config.token}`
+                        'Authorization': `Bearer ${authToken}`
                     }
                 });
                 setCommentList(commentResponse?.data)
@@ -26,10 +28,11 @@ export const CommentList = () =>{
     }, [])
 
     const loadMore = async() =>{
+        const authToken = await AsyncStorage.getItem('authToken');
         perPage = perPage+2;
         const commentResponse = await axios.get(`${config.apiUrl}/patient_comments/5?perPage=${perPage}&page=1`,{
             headers:{
-                'Authorization': `Bearer ${config.token}`
+                'Authorization': `Bearer ${authToken}`
             }
         });
         
