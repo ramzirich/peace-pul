@@ -13,7 +13,6 @@ class Patients_comment extends Model
     protected $fillable =['doctor_id', 'comment'];
     protected $hidden = ["deleted_at"];
     protected $dates = ['deleted_at'];
-    public $timestamps = false;
 
     public function user(){
         return $this->belongsTo(User::class, 'patient_id');

@@ -40,14 +40,21 @@ class UserSpecificGenericManager{
             return ExceptionMessages::Error($exception->getMessage());
         }      
     }
-    public function getAllForCurrentUser($request = null, $perPage = 10, 
-                            $page =1, $sortColumns = []){
+    public function getAllForCurrentUser($request = null, $with=[]){
         try{
             $query = $this->obj->query();
+            $perPage = $request->query('perPage', $request['perPage']);
+            $page = $request->query('page', $request['perPage']);
+            $sortColumns = $request->query('sortColumns', []);
+            
             if ($request) {
                 $query->where($request->except(['perPage', 'page', 'sortColumns']));
             }
 
+            if (!empty($with)) {
+                $query->with($with); 
+            }
+            
             if (!empty($sortColumns)) {
                 foreach ($sortColumns as $sortColumn) {
                     $columnName = $sortColumn['column'];

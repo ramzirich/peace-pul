@@ -38,7 +38,7 @@ class AuthController extends Controller
         if (!$token) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Unauthorized',
+                'message' => 'Wrong credentials',
             ], 401);
         }
 
@@ -109,7 +109,10 @@ class AuthController extends Controller
 
     public function getCurrentUser(){
         try{
-            return Auth::user();
+            return response()->json([
+                "status" => "success",
+                "data" => Auth::user()
+            ]) ;
         }catch(\Exception $exception){
             return ExceptionMessages::Error($exception->getMessage());
         }

@@ -17,6 +17,7 @@ class UserMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         $user = Auth::user();
+        // Auth::refresh();
         if($user){
             return $next($request);
         }

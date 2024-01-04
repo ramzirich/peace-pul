@@ -22,7 +22,7 @@ class PatientMiddleware
         }
         return response()->json([
             'status' => 'error',
-            'message' => 'Unauthorized',
+            'message' => 'Unauthorized patient',
         ], 403);  
     }
 }

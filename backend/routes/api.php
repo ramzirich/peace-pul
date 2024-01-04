@@ -16,6 +16,7 @@ use App\Http\Controllers\VolunteerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use OpenAI\Laravel\Facades\OpenAI;
 
 /*
 |--------------------------------------------------------------------------
@@ -80,6 +81,7 @@ Route::middleware(['auth.user', 'patient.check'])->group(function () {
     Route::post('patient_comment/update/{id}',  [PatientCommentController::class, 'updatePatientComment']);
     Route::post('patient_comment/delete/{id}',  [PatientCommentController::class, 'deletePatientComment']);
     Route::get('patient_comment/{id}',  [PatientCommentController::class, 'getPatientComment']);
+    Route::get('patient_comments/{id}',  [PatientCommentController::class, 'getAllPatientCommentForDoctor']);
 });
 
 Route::middleware(['auth.user', 'doctor.check'])->group(function () {
@@ -126,5 +128,19 @@ Route::middleware('auth.user')->group(function () {
     Route::post('rating',  [RatingController::class, 'CreateUpdateRating']);
     Route::get('rating/{id}',  [RatingController::class, 'getRating']);
 });
+
+
+Route::get('ask/{question}', function ($question){
+    $result = OpenAI::completions()->create([
+        'model' => 'text-davinci-003',
+        'prompt' => $question,
+        // 'max_tokens' =>20,
+        // 'temperature' =>0,
+        // 'n' =>2
+    ]);
+     
+    echo $result['choices'][0]['text'];
+});
+
 
 

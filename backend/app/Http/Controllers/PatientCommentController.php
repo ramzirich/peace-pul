@@ -6,6 +6,7 @@ use App\Exceptions\ExceptionMessages;
 use App\Http\Requests\PatientComment\PatientCommentRequest;
 use App\Manager\UserSpecificGenericManager;
 use App\Manager\GenericManager;
+use App\Models\Patient_doctor_request;
 use App\Models\Patients_comment;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -22,22 +23,14 @@ class PatientCommentController extends Controller
         $this->userSpecificGenericManager = new UserSpecificGenericManager($this->patient_comment );
     }
 
-    public function getPatientComment($id){
-        return $this->userSpecificGenericManager->findById($id, "patient_id");   
-    }
-
-    // public function getAllPatientCommentForDoctor(Request $request){
-    //     $perPage = $request->query('perPage', 10);
-    //     $page = $request->query('page', 1);
-    //     $sortColumns = $request->query('sortColumns', []);
-    //     $request->merge(['user_id' => $this->user->id]);
-
-    //     $model = $this->userSpecificGenericManager->getAllForCurrentUser($request, $perPage, $page, $sortColumns);
-    //     if(!$model){
-    //         return [];
-    //     }
-    //     return $model;
+    // public function getPatientComment($id){
+    //     return $this->userSpecificGenericManager->findById($id, "patient_id");   
     // }
+
+    public function getAllPatientCommentForDoctor($id, Request $request){
+        $request->merge(['doctor_id' => $id]);
+        return $this->userSpecificGenericManager->getAllForCurrentUser($request, ['user']);
+    }
 
     public function createPatientComment(Request $request){
         try{
@@ -57,6 +50,14 @@ class PatientCommentController extends Controller
             if($doctorObj->role_id != 2){
                 return ExceptionMessages::Error('This user is not a doctor', 400);
             }
+            
+            $patientRequestDoctor = new Patient_doctor_request();
+            $patientRequestDoctorObj = $patientRequestDoctor->where('patient_id', $this->user->id)
+                                                            ->where('doctor_id', $data['doctor_id'])
+                                                            ->where('request','accepted');
+            if(!$patientRequestDoctorObj){
+                return ExceptionMessages::Error('Unauthirized to comment', 403);
+            }                 
             
             return $this->userSpecificGenericManager->createWithSpecificUser($request);
         }catch(\Exception $exception){
